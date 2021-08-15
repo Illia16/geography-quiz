@@ -11,3 +11,60 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.next-prev-q-btns button,
+button.start-over-btn {
+  background: black;
+  color: white;
+  border: 1px white solid;
+  padding: 10px 25px;
+  transition: all 0.3s ease;
+  margin: 5px 15px;
+}
+
+.next-prev-q-btns button:hover,
+.next-prev-q-btns button:focus,
+button.start-over-btn:hover,
+button.start-over-btn:focus {
+  background: white;
+  color: black;
+  border: 1px black solid;
+}
+
+.answer-btns {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.answer-btns label {
+
+}
+
+/* .answer-btns label input {
+  width: 0;
+} */
+
+.answer-btns label span {
+
+}
+/* .answer-btns button {
+  background: beige;
+  color: black;
+  border: 1px white solid;
+  padding: 10px 25px;
+  transition: all 0.3s ease;
+  margin: 5px 15px;
+}
+
+.answer-btns button:hover,
+.answer-btns button:focus {
+  background: black;
+  color: beige;
+} */
+
+.answers {
+  margin: 20px 0;
+}
