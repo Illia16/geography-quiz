@@ -20,9 +20,16 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "rootDir": "src",
-    "outDir": "build"
+    "outDir": "build",
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": [ "./*" ]
+    },
+    "typeRoots": [
+      "node_modules/@types"
+    ],
   },
   "include": [
-    "src"
+    "src/**/*"
   ]
 }
