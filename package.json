@@ -22,7 +22,7 @@
     "build": "parcel build src/index.html --no-source-maps",
     "clean": "rimraf ./dist",
     "start": "parcel src/index.html --open",
-    "deploy": "gh-pages -d ./dist"
+    "deploy": "gh-pages -d dist"
   },
   "eslintConfig": {
     "extends": [
