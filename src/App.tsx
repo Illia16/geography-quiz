@@ -26,7 +26,7 @@ function App() {
 
   const fetchData = async () => {
     try {
-      await fetch("https://opentdb.com/api.php?amount=5&category=22&difficulty=easy", {
+      await fetch("https://opentdb.com/api.php?amount=15&category=22&difficulty=easy", {
         method: 'GET',
       })
       .then(res => res.json())
