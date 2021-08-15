@@ -1,26 +1,34 @@
 import React from 'react';
+import decodeString from '../helpers/decodeString'
 
 interface QuestionProps {
     questionNumber: Number,
     question: String,
     answers: Array<string>,
-    setAnswer: (e:any) => void,
+    setAnswer: (e:React.ChangeEvent<HTMLInputElement>) => void,
+    userAnswers: Array<string>
 }
 
-function Question({questionNumber, question, answers, setAnswer}:QuestionProps):JSX.Element {    
+function Question({questionNumber, question, answers, setAnswer, userAnswers}:QuestionProps):JSX.Element {
     return (
       <div>
           <div>
               Question # {questionNumber}
           </div>
           <div>
-            {question}
+            {decodeString(question)}
           </div>
           <div className='answer-btns'>
             {answers.map((q, i)=>(
-                <label key={`option-${i}`}>
-                    <input type="radio" name={`question-${questionNumber}`} value={q} onChange={setAnswer} /> 
-                    <span>{q}</span>
+                <label key={`option-${i}-${questionNumber}`}>
+                    <input 
+                      type="radio" 
+                      name={`question-${questionNumber}`} 
+                      value={q} 
+                      onChange={setAnswer}
+                      checked={q === userAnswers[questionNumber-1]}
+                    /> 
+                    <span>{decodeString(q)}</span>
                 </label>
             ))
             }

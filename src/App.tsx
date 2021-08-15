@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
 import Question from './components/Question';
+import decodeString from './helpers/decodeString';
 
 interface Data{
   answers: Array<string>,
@@ -47,11 +47,6 @@ function App() {
     }
   }
 
-  // useEffect(() => {
-  //   console.log('userAnswers',userAnswers);
-  //   console.log('quizData',quizData);
-  // }, [quizData, userAnswers]);
-
   useEffect(() => {
     if (gameOver){
       for (let i = 0; i < quizData.length; i++) {
@@ -62,10 +57,10 @@ function App() {
     }
   }, [gameOver]);
 
-  const setAnswer = (e: any) => {
+  const setAnswer = (e: React.ChangeEvent<HTMLInputElement>) => {
     const allAnswers:Array<string> = userAnswers.slice();
     allAnswers[currentQuestion-1] = e.target.value;
-    setUserAnswers(allAnswers)
+    setUserAnswers(allAnswers)    
   }  
 
   useEffect(() => {
@@ -76,36 +71,34 @@ function App() {
     <div className="App">
       <header className="App-header">
         {quizData && quizData.length && !gameOver ?
-        <div>
+        <div className='quiz'>
           <Question 
             questionNumber={currentQuestion} 
             question={quizData[currentQuestion-1].question} 
             answers={quizData[currentQuestion-1].answers}
             setAnswer={setAnswer}
+            userAnswers={userAnswers}
           />
-          <div>
-            -----------------------
-          </div>
           <div className='next-prev-q-btns'>
             {currentQuestion >= 2 && <button onClick={()=>changeQuestion(currentQuestion-1)}>Previous Question</button>}
             {currentQuestion <= quizData.length-1 && <button onClick={()=>changeQuestion(currentQuestion+1)}>Next Question</button>}
-            {userAnswers.length === quizData.length && <button onClick={()=>setGameOver(true)}>Finish</button>}
+            {userAnswers.length === quizData.length && !userAnswers.includes(undefined) ? <button onClick={()=>setGameOver(true)}>Finish</button> : null}
           </div>
         </div>
         : gameOver ? null : <div>Loading...</div>
         }
 
         {gameOver && 
-          <div>
+          <div className='answers-container'>
             <div>
               You got {numOfCorrectAnswers} out of {quizData.length} correct!
             </div>
             <div>
               {quizData.map((q,i)=>
                 <div key={`q-${i}`} className='answers'>
-                  <div>Question:{q.question}</div>
-                  <div>Correct answer:{q.correctAnswer}</div>
-                  <div>User answer: {userAnswers[i]}</div>
+                  <div><span>Question:</span> {decodeString(q.question)}</div>
+                  <div><span>Correct answer:</span> {decodeString(q.correctAnswer)}</div>
+                  <div><span>User answer:</span> {decodeString(userAnswers[i])}</div>
                 </div>
               )}
             </div>

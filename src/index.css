@@ -7,6 +7,39 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #f8ea27;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: black;
+}
+
+.quiz {
+  padding: 50px 40px;
+  background: transparent;
+  width: 700px;
+  border-radius: 40px;
+  border: 5px solid black;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (max-width:768px) {
+  .quiz {
+    width: 300px;
+  }
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -14,11 +47,12 @@ code {
 
 .next-prev-q-btns button,
 button.start-over-btn {
-  background: black;
-  color: white;
-  border: 1px white solid;
+  background: #fdad00;
+  color: black;
+  border: 1px transparent solid;
   padding: 10px 25px;
   transition: all 0.3s ease;
+  border-radius: 5px;
   margin: 5px 15px;
 }
 
@@ -26,8 +60,8 @@ button.start-over-btn {
 .next-prev-q-btns button:focus,
 button.start-over-btn:hover,
 button.start-over-btn:focus {
-  background: white;
-  color: black;
+  background: black;
+  color: white;
   border: 1px black solid;
 }
 
@@ -35,36 +69,59 @@ button.start-over-btn:focus {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex-wrap: wrap;
+  align-items: center;
   margin: 20px 0;
+  font-size: 16px;
 }
 
 .answer-btns label {
-
+  margin: 10px;
 }
 
-/* .answer-btns label input {
+.answer-btns label input {
   width: 0;
-} */
+  opacity: 0;
+}
 
 .answer-btns label span {
-
-}
-/* .answer-btns button {
-  background: beige;
-  color: black;
-  border: 1px white solid;
-  padding: 10px 25px;
-  transition: all 0.3s ease;
-  margin: 5px 15px;
-}
-
-.answer-btns button:hover,
-.answer-btns button:focus {
+  padding: 5px 10px;
+  color: white;
   background: black;
-  color: beige;
-} */
+  border: 1px solid transparent;
+}
+
+.answer-btns label span:hover,
+.answer-btns label span:focus {
+  border: 1px solid black;
+  background: #ffae06;
+  color: black;
+}
+
+.answer-btns label input:checked ~ span {
+  background: #ffae06;
+  color: black;
+}
+
+.answer-btns label span::after {
+
+}
+
+.answers-container {
+  max-width: 700px;
+  font-size: 16px;
+}
+
 
 .answers {
+  background: #ffb907;
+  padding: 20px;
   margin: 20px 0;
+}
+
+.answers > div {
+  padding-bottom: 5px;
+}
+
+.answers > div span{
+  font-weight: 700;
 }
