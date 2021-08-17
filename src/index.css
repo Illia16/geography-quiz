@@ -129,6 +129,7 @@ button.start-over-btn:focus {
 
 .answer-btns {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   margin: 20px 0;
