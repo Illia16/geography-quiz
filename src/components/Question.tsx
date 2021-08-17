@@ -11,7 +11,7 @@ interface QuestionProps {
 
 function Question({questionNumber, question, answers, setAnswer, userAnswers}:QuestionProps):JSX.Element {
     return (
-      <div>
+      <div className='question'>
           <div>
               Question # {questionNumber}
           </div>

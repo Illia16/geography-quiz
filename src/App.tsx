@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Question from './components/Question';
+import QuestionTracker from './components/QuestionTracker';
 import decodeString from './helpers/decodeString';
 
 interface Data{
@@ -13,6 +14,8 @@ function App() {
   const [quizData, setQuizData] = useState<Array<Data>>([]);
   const [userAnswers, setUserAnswers] = useState<Array<string>>([]);
 
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
+  const [numQuestions, setNumQuestions] = useState<number>(5);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [numOfCorrectAnswers, setNumOfCorrectAnswers] = useState<number>(0);
 
@@ -22,11 +25,13 @@ function App() {
     setUserAnswers([]);
     setNumOfCorrectAnswers(0);
     fetchData();
+    setGameStarted(false);
+    setNumQuestions(5);
   }
 
   const fetchData = async () => {
     try {
-      await fetch("https://opentdb.com/api.php?amount=15&category=22&difficulty=easy", {
+      await fetch(`https://opentdb.com/api.php?amount=${numQuestions}&category=22&difficulty=easy`, {
         method: 'GET',
       })
       .then(res => res.json())
@@ -64,14 +69,41 @@ function App() {
   }  
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if(gameStarted){
+      fetchData();
+    }
+  }, [gameStarted]);
 
   return (
     <div className="App">
       <header className="App-header">
-        {quizData && quizData.length && !gameOver ?
+
+        {!gameStarted ?
+        <section>
+          <h1>Georgaphy quiz.</h1>
+          <h2>Please, select a desired number of questions.</h2>
+          <label>
+            <select id="numQuestions" onChange={(e):void=>setNumQuestions(Number(e.target.value))}>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+              <option value={20}>20</option>
+              <option value={25}>25</option>
+              <option value={30}>30</option>
+            </select>
+          </label>
+          <button className='start-game' onClick={()=>setGameStarted(true)}>Start</button>
+        </section>
+        : null
+        }
+
+
+        {gameStarted && quizData && quizData.length && !gameOver ?
         <div className='quiz'>
+          <QuestionTracker 
+            allQuestions={quizData.length}
+            userAnswers={userAnswers}
+          />
           <Question 
             questionNumber={currentQuestion} 
             question={quizData[currentQuestion-1].question} 
@@ -85,8 +117,10 @@ function App() {
             {userAnswers.length === quizData.length && !userAnswers.includes(undefined) ? <button onClick={()=>setGameOver(true)}>Finish</button> : null}
           </div>
         </div>
-        : gameOver ? null : <div>Loading...</div>
+        : gameOver ? null : !gameStarted ? null : <div>Loading...</div>
         }
+
+
 
         {gameOver && 
           <div className='answers-container'>

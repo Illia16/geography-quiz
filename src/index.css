@@ -37,7 +37,8 @@ body {
 
 @media (max-width:768px) {
   .quiz {
-    width: 300px;
+    width: 80%;
+    padding: 50px 10px;
   }
 }
 
@@ -46,10 +47,70 @@ code {
     monospace;
 }
 
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section h1,
+section h2 {
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+section select,
+.start-game {
+  margin-bottom: 20px;
+  width: 200px;
+  height: 40px;
+  border: black 1px solid;
+  font-size: 20px;
+  background: #ffae06;
+}
+
+.q-tracker {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 20px 0;
+}
+
+.q-tracker .asnwered,
+.q-tracker .notAnswered {
+  width: 20px;
+  height: 20px;
+}
+
+.q-tracker .asnwered {
+  background: rgb(11, 233, 11);
+}
+
+.q-tracker .notAnswered {
+  background: rgb(99, 99, 99);
+}
+
+.question {
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.start-game {
+  border: none;
+}
+
+.start-game:hover,
+.start-game:focus {
+  background: black;
+  color: white;
+}
+
+
 .next-prev-q-btns button,
 button.start-over-btn {
-  background: #fdad00;
-  color: black;
+  background: black;
+  color: white;
   border: 1px transparent solid;
   padding: 10px 25px;
   transition: all 0.3s ease;
@@ -61,18 +122,23 @@ button.start-over-btn {
 .next-prev-q-btns button:focus,
 button.start-over-btn:hover,
 button.start-over-btn:focus {
-  background: black;
-  color: white;
+  background: #ffae06;
+  color: black;
   border: 1px black solid;
 }
 
 .answer-btns {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 20px 0;
   font-size: 16px;
+}
+
+@media (max-width:768px) {
+  .answer-btns {  
+    flex-direction: column;
+  }
 }
 
 .answer-btns label {
@@ -101,10 +167,6 @@ button.start-over-btn:focus {
 .answer-btns label input:checked ~ span {
   background: #ffae06;
   color: black;
-}
-
-.answer-btns label span::after {
-
 }
 
 .answers-container {
