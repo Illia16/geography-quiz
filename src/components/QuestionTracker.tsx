@@ -12,7 +12,7 @@ function QuestionTracker({allQuestions, userAnswers}:QuestionTrackerProps):JSX.E
         {
           arr.map((el, i):any=>{
             return (
-            <div className={userAnswers[i] ? 'asnwered' : 'notAnswered'}></div>
+            <div key={`q-tracker-${i}`} className={userAnswers[i] ? 'asnwered' : 'notAnswered'}></div>
           )})
         }
       </div>
