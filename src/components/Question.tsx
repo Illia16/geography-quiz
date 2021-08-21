@@ -28,7 +28,7 @@ function Question({questionNumber, question, answers, setAnswer, userAnswers}:Qu
                       onChange={setAnswer}
                       checked={q === userAnswers[questionNumber-1]}
                     /> 
-                    <span>{decodeString(q)}</span>
+                    <div>{decodeString(q)}</div>
                 </label>
             ))
             }
