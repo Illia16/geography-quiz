@@ -10,14 +10,21 @@ interface Data{
 }
 
 function App() {
+  //game logic states
   const [currentQuestion, changeQuestion] = useState<number>(1);
   const [quizData, setQuizData] = useState<Array<Data>>([]);
   const [userAnswers, setUserAnswers] = useState<Array<string>>([]);
-
   const [gameStarted, setGameStarted] = useState<boolean>(false);
-  const [numQuestions, setNumQuestions] = useState<number>(5);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [numOfCorrectAnswers, setNumOfCorrectAnswers] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // main menu states
+  const [numQuestions, setNumQuestions] = useState<number>(5);
+  const [difficulty, setDifficulty] = useState<string>('easy');
+
+  // api error state
+  const [errorApi, setErrorApi] = useState<boolean>(false);
 
   const startOver = ():void => {
     setGameOver(false);
@@ -31,7 +38,7 @@ function App() {
 
   const fetchData = async () => {
     try {
-      await fetch(`https://opentdb.com/api.php?amount=${numQuestions}&category=22&difficulty=easy`, {
+      await fetch(`https://opentdb.com/api.php?amount=${numQuestions}&category=22&difficulty=${difficulty}`, {
         method: 'GET',
       })
       .then(res => res.json())
@@ -45,10 +52,13 @@ function App() {
             question: q?.question,
           })
         });
-        setQuizData(newData)
+        setQuizData(newData);
+        setLoading(false);
       })
     } catch (er) {
       console.error(er);
+      setErrorApi(true);
+      setLoading(false);
     }
   }
 
@@ -70,6 +80,7 @@ function App() {
 
   useEffect(() => {
     if(gameStarted){
+      setLoading(true);
       fetchData();
     }
   }, [gameStarted]);
@@ -79,22 +90,29 @@ function App() {
       <header className="App-header">
 
         {!gameStarted ?
-        <section>
-          <h1>Georgaphy quiz.</h1>
-          <h2>Please, select a desired number of questions.</h2>
-          <label>
-            <select id="numQuestions" onChange={(e):void=>setNumQuestions(Number(e.target.value))}>
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={15}>15</option>
-              <option value={20}>20</option>
-              <option value={25}>25</option>
-              <option value={30}>30</option>
-            </select>
-          </label>
-          <button className='start-game' onClick={()=>setGameStarted(true)}>Start</button>
-        </section>
-        : null
+          <section>
+            <h1>Georgaphy quiz.</h1>
+            <p>Please, select a desired number of questions and difficulty.</p>
+            <label>
+              <select id="numQuestions" onChange={(e):void=>setNumQuestions(Number(e.target.value))}>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+                <option value={20}>20</option>
+                <option value={25}>25</option>
+                <option value={30}>30</option>
+              </select>
+            </label>
+            <label>
+              <select id="difficulty" onChange={(e):void=>setDifficulty(e.target.value)}>
+                <option value={'hard'}>Easy</option>
+                <option value={'medium'}>Medium</option>
+                <option value={'hard'}>Hard</option>
+              </select>
+            </label>
+            <button className='start-game' onClick={()=>setGameStarted(true)}>Start</button>
+          </section>
+          : null
         }
 
 
@@ -117,9 +135,18 @@ function App() {
             {userAnswers.length === quizData.length && !userAnswers.includes(undefined) ? <button onClick={()=>setGameOver(true)}>Finish</button> : null}
           </div>
         </div>
-        : gameOver ? null : !gameStarted ? null : <div>Loading...</div>
+        : null
         }
 
+
+        {loading && <div>Loading...</div>}
+
+        {errorApi && 
+          <div>
+            <h2>Something went wrong. Please, try again later.</h2>
+            <button onClick={()=>{setErrorApi(false); setGameStarted(false)}} className='start-over-btn'>Go back</button>
+          </div>
+        }
 
 
         {gameOver && 
